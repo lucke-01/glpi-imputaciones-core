@@ -1,0 +1,11 @@
+/target
+/logs
+/configuracion.json
+.idea
+/configuracion - copia.json
+/bin
+.classpath
+.project
+/.settings
+nb-configuration.xml
+/nbproject
