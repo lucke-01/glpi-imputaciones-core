@@ -38,8 +38,14 @@ public class ExtractorFicheroTareas {
     
     public TareaListado extraeTareaListado() {
         TareaListado tareaListado = new TareaListado();
+        
         tareaListado.setDiasFestivos(imputable.getFestivos());
+        //ordenamos dias festivos
+        Collections.sort(tareaListado.getDiasFestivos());
+        
         tareaListado.setDiasVacaciones(imputable.getVacaciones());
+        //ordenamos dias vacaciones
+        Collections.sort(tareaListado.getDiasVacaciones());
         
         List<TareaImputada> tareasImputadas =  extraeFicheroTareas();
         //ordenamos tareas por fecha
@@ -47,6 +53,7 @@ public class ExtractorFicheroTareas {
         tareaListado.setListaTareas(tareasImputadas);
         
         List<TareaImputadaAgrupada> tareasAgrupadasByFecha = agrupaTareasByFecha(tareasImputadas);
+        
         //ordenamos tareas agrupadas por fecha
         Collections.sort(tareasAgrupadasByFecha);
         tareaListado.setListaTareasAgrupada(tareasAgrupadasByFecha);
@@ -95,7 +102,8 @@ public class ExtractorFicheroTareas {
             }
         }
         tareaListado.setDiasSinImputar(new ArrayList<>(diasSinImputar));
-        
+        //ordenado dias sin imputar
+        Collections.sort(tareaListado.getDiasSinImputar());
     }
     public void estableceErroresTareaListado(TareaListado tareaListado) {
         //establecemos posibles errores en tareasImputadas
@@ -184,8 +192,6 @@ public class ExtractorFicheroTareas {
                     .parse(new StringReader(contenidoCsvSinHeader));
             
             listaTareas = coleccionaFicheroTareas(records);
-            System.out.println("listaTareas");
-            System.out.println(listaTareas);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
@@ -209,7 +215,7 @@ public class ExtractorFicheroTareas {
             record.get(HeaderTareas.ESTADO.ordinal()),record.get(HeaderTareas.INICIO_PLAN.ordinal()),
             record.get(HeaderTareas.FIN_PLAN.ordinal())
         );
-        tareaImputada.setTiempoHoras(new BigDecimal( (tareaImputada.getTiempoMinutos() / 60) ));
+        tareaImputada.setTiempoHoras(new BigDecimal(tareaImputada.getTiempoMinutos()).divide(new BigDecimal(60)));
         tareaImputada.setFechaTruncada(tareaImputada.getFecha().toLocalDate());
         
         return tareaImputada;
