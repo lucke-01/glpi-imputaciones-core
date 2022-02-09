@@ -1,0 +1,1 @@
+CMD implementation of "imputaciones-core" which allows process cvs imputation file (application glpi) and convert into an group by day etc... excel file well organized
